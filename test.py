@@ -204,6 +204,15 @@ class TestFifteensPuzzle(unittest.TestCase):
         self.assertEqual(len(solution), 1)
         self.assertTrue(solution[0].is_goal())
 
+    def test_is_solvable():
+        state = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 0, 11], [13, 14, 15, 12]]
+        node = TilesNode(state=state)
+        assert node.is_solvable()
+
+        state = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 15, 14, 0]]
+        node = TilesNode(state=state)
+        assert not node.is_solvable()
+
     def test_heuristic_consistency(self):
         state = [[12, 1, 10, 7], [11, 9, 6, 2], [5, 4, 3, 8], [13, 14, 0, 15]]
         node = TilesNode(state=state)

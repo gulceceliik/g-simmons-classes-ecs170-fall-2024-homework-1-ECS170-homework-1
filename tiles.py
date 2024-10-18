@@ -97,7 +97,7 @@ class TilesNode:
 
         You don't need to use this function, but it may be helpful.
         """
-        flat_state = [tile for row in self.state for tile in row if tile != 0]
+        flat_state = [tile if tile != 0 else 16 for row in self.state for tile in row]
 
         inversions = 0
         for i in range(len(flat_state)):
