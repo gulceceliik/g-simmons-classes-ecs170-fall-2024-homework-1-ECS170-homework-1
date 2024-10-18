@@ -204,7 +204,7 @@ class TestFifteensPuzzle(unittest.TestCase):
         self.assertEqual(len(solution), 1)
         self.assertTrue(solution[0].is_goal())
 
-    def test_is_solvable():
+    def test_is_solvable(self):
         state = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 0, 11], [13, 14, 15, 12]]
         node = TilesNode(state=state)
         assert node.is_solvable()
