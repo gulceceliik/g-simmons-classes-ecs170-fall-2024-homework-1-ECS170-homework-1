@@ -3,13 +3,12 @@ import random
 from tiles import TilesNode
 from astar import AStar, heuristic
 
-
 class TestFifteensPuzzle(unittest.TestCase):
     def setUp(self):
         start_state = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 0, 11], [13, 14, 15, 12]]
-        self.fifteens_root = TilesNode(state=start_state)
         self.goal_state = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 0]]
-        self.goal_node = TilesNode(state=self.goal_state)
+        self.fifteens_root = TilesNode(state=start_state, goal_state=self.goal_state)
+        self.goal_node = TilesNode(state=self.goal_state, goal_state=self.goal_state)
 
     @staticmethod
     def generate_random_test_case(steps=10):

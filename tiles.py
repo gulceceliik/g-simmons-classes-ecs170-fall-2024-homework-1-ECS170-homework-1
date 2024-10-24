@@ -1,6 +1,5 @@
 from copy import deepcopy
 
-
 class TilesNode:
     """A class to represent a node in the Fifteen-Tile Puzzle.
 
@@ -10,21 +9,30 @@ class TilesNode:
         An array (list of list) of ints representing the initial state of the puzzle.
         This array should contain integers from 0 to 15 separated by spaces.
         The integer 0 represents the empty space in the puzzle.
+    
+    goal_state: list[list[int]], optional 
+        The goal state of the fifteen-tile puzzle. This parameter is used to evaluate whether
+        the current state is the goal state
 
     parent : Node, optional
         The parent node of the current node. The default is None.
     """
 
-    def __init__(
-        self,
-        state,
-        parent=None,
-    ):
+    def __init__(self, state, goal_state=None, parent=None, ):
+
         self.state = state
+        self.goal_state = goal_state
         self.parent = parent
 
     def is_goal(self) -> bool:
-        raise NotImplementedError("Implement this function as part of the assignment.")
+        """
+        Checks if the current state is the goal state.
+
+        Returns
+        -------
+        True or False 
+        """ 
+        return self.state == self.goal_state 
 
     def find_empty_space(self) -> tuple[int, int]:
         """Helper function to find the empty space in the current state.
@@ -59,7 +67,25 @@ class TilesNode:
         return new_state
 
     def get_children(self) -> list["TilesNode"]:
-        raise NotImplementedError("Implement this function as part of the assignment.")
+
+        #Get the index of the empty space (tuple[int,int])
+        empty_row, empty_col = self.find_empty_space()
+
+        possible_moves = [
+            (empty_row - 1, empty_col),  # Up
+            (empty_row + 1, empty_col),  # Down
+            (empty_row, empty_col - 1),  # Left
+            (empty_row, empty_col + 1),  # Right
+        ]
+
+        children = []
+        for new_row, new_col in possible_moves:
+            if new_row in range(len(self.state)) and new_col in range(len(self.state[0])):
+                new_state = self.swap_tiles(empty_row, empty_col, new_row, new_col)
+                child = TilesNode(state=new_state, goal_state= self.goal_state, parent=self)
+                children.append(child)
+                
+        return children 
 
     def __str__(self):
         return "\n".join(" ".join(map(str, row)) for row in self.state)
